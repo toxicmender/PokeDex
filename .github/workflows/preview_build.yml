@@ -4,12 +4,8 @@ name: Continuous Deployment
 
 # Controls when the action will run. 
 # Triggers the workflow on push or pull request events but only for the main branch
-on: 
-  push:
-    branches: [main]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+# Allows you to run this workflow manually from the Actions tab
+on: [pull_request, workflow_dispatch]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -51,7 +47,8 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          channelId: live
+          channelId: preview_${{ github.event.pull_request.head.sha }}
+          expires: 7d
           projectId: ${{ secrets.PROJECT_ID}}
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
