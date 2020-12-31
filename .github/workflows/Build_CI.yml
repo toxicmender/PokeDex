@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [10, 12, 14]
+        node: [12]
 
     steps:
       - name: Checkout 🛎
@@ -49,4 +49,11 @@ jobs:
         run: npm run build
       
       - name: Publish build
-        run: echo "publishing workflow TBH"
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GITHUB_DEMOS_BBDBD }}'
+          channelId: live
+          projectId: github-demos-bbdbd
+        env:
+          FIREBASE_CLI_PREVIEWS: hostingchannels
