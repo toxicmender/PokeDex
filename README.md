@@ -1,4 +1,5 @@
-# pokedex
+# PokeDex
+VueJS based Pokemon Index using PokeAPI for data
 
 ## Project setup
 ```
