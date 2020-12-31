@@ -1,0 +1,51 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Node.js CI
+
+# Controls when the action will run. 
+# Triggers the workflow on push or pull request events on `main` branch
+on: 
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  lint:
+    # The type of runner that the job will run on
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [10, 12, 14]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+        - name: Checkout 🛎
+          uses: actions/checkout@v2
+
+        - name: Setup node env 🏗
+          uses: actions/setup-node@v2.1.4
+          with:
+            node-version: ${{ matrix.node }}
+
+        - name: Cache node_modules 📦
+          uses: actions/cache@v2
+          with:
+            path: ~/.npm
+            key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+            restore-keys: |
+              ${{ runner.os }}-node-
+
+        - name: Install dependencies 👨🏻‍💻
+          run: npm install
+
+        - name: Run linter 👀
+          run: npm run lint
+
+        - name: Run Unit Test 👀
+          run: npm run test:unit
