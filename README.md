@@ -1,4 +1,5 @@
 # PokeDex
+![Node.js CI status](https://github.com/toxicmender/PokeDex/workflows/Node.js%20CI/badge.svg)
 VueJS based Pokemon Index using PokeAPI for data
 
 ## Project setup
